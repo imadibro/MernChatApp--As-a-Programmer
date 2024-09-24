@@ -12,7 +12,7 @@ export const signup = async (req, res) => {
 
     const user = await User.findOne({ username });
     if (user) {
-      res.status(400).json({ error: "user already exist" });
+     return res.status(400).json({ error: "user already exist" });
     }
     // hach password
     const salt = await bcrypt.genSalt(10);
@@ -35,7 +35,7 @@ export const signup = async (req, res) => {
       await newUser.save();
 
       res.status(201).json({
-        _id: newUser.id,
+        _id: newUser._id,
         fullName: newUser.fullName,
         username: newUser.username,
         profilePic: newUser.profilePic,
@@ -66,9 +66,9 @@ export const login = async (req, res) => {
 
     res.status(200).json({
       message: "User login succsfuly",
-      _id: user.id,
+      _id: user._id,
       fullName: user.fullName,
-      username,
+      username : user.username,
       profilePic: user.profilePic,
     });
   } catch (error) {
@@ -79,7 +79,7 @@ export const login = async (req, res) => {
 
 export const logout = (req, res) => {
   try {
-    /** code de la ligne 83 jwt c'est le ookie avec une valeur string vide maxAge :0 signifie que qui signifie que le cookie est immédiatement expiré, supprimant ainsi le jeton JWT de la session de l'utilisateur. */
+    /** code de la ligne 83 jwt c'est le ookie avec une valeur string vide maxAge :0 qui signifie que le cookie est immédiatement expiré, supprimant ainsi le jeton JWT de la session de l'utilisateur. */
     res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {

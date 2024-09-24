@@ -5,6 +5,7 @@ const protectRoute = async (req, res, next) => {
   try {
     // bach tkhdam hadi darori nzid package cookieParser f fichier server ligne 13
     const token = req.cookies.jwt;
+    
     if (!token) {
       return res.status(401).json({ error: "Unautorized - No Token Provided" });
     }
